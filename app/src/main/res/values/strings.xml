@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">flat</string>
+    <string name="error_message">Error fetching data</string>
+    <string name="house_icon_description">House Icon</string>
+    <string name="bed_icon_description">House Icon</string>
+    <string name="currency_icon_description">Currency Icon</string>
+    <string name="location_icon_description">Location Icon</string>
+    <string name="search_title">Search...</string>
+
 </resources>

@@ -2,10 +2,15 @@ package com.example.flat;
 
 import android.util.Log;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class ApiUtil {
@@ -44,5 +49,38 @@ public class ApiUtil {
         finally {
                 connection.disconnect();
             }
+    }
+
+    public static ArrayList<Room> getRoomsFromJson(String json){
+
+        final String ID = "id";
+        final String ROOMTYPE = "room_type";
+        final String LOCATION = "location";
+        final String PRICE = "price";
+        final String RESULTS = "results";
+        final String COUNT = "count";
+        ArrayList<Room> rooms = new ArrayList<Room>();
+
+        try {
+            JSONObject jsonRooms = new JSONObject(json);
+            JSONArray arrayRooms = jsonRooms.getJSONArray(RESULTS);
+            int noOfRooms = arrayRooms.length();
+
+            for (int i = 0; i < noOfRooms; i++){
+                JSONObject jsonRoom = arrayRooms.getJSONObject(i);
+                Room room = new Room(
+                        Integer.toString(jsonRoom.getInt(ID)),
+                        jsonRoom.getString(ROOMTYPE),
+                        jsonRoom.getString(LOCATION),
+                        jsonRoom.getInt(PRICE)
+                );
+                rooms.add(room);
+            }
+
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+
+        return rooms;
     }
 }
