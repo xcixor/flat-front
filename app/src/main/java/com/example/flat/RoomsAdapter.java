@@ -1,6 +1,7 @@
 package com.example.flat;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,7 +40,7 @@ public class RoomsAdapter extends RecyclerView.Adapter<RoomsAdapter.RoomViewHold
         return rooms.size();
     }
 
-    public class RoomViewHolder extends RecyclerView.ViewHolder{
+    public class RoomViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         TextView tvRoomType;
         TextView tvPrice;
         TextView tvLocation;
@@ -48,12 +49,21 @@ public class RoomsAdapter extends RecyclerView.Adapter<RoomsAdapter.RoomViewHold
             tvRoomType = (TextView)itemView.findViewById(R.id.room_type);
             tvPrice = (TextView)itemView.findViewById(R.id.price);
             tvLocation = (TextView)itemView.findViewById(R.id.location);
-
+            itemView.setOnClickListener(this);
         }
         public void bind(Room room){
             tvRoomType.setText(room.roomType);
             tvPrice.setText(Integer.toString(room.price));
             tvLocation.setText(room.location);
+        }
+
+        @Override
+        public void onClick(View view) {
+            int position = getAdapterPosition();
+            Room selectedRoom = rooms.get(position);
+            Intent intent = new Intent(view.getContext(), RoomDetailActivity.class);
+            intent.putExtra("Room", selectedRoom);
+            view.getContext().startActivity(intent);
         }
     }
 }

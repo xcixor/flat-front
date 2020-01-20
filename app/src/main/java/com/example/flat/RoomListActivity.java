@@ -76,7 +76,7 @@ public class RoomListActivity extends AppCompatActivity implements SearchView.On
 
     @Override
     protected String doInBackground(URL... urls) {
-        android.os.Debug.waitForDebugger();
+//        android.os.Debug.waitForDebugger();
         URL searchUrl = urls[0];
         String result = null;
         try {
@@ -88,20 +88,21 @@ public class RoomListActivity extends AppCompatActivity implements SearchView.On
     }
     @Override
     protected void onPostExecute (String result){
-
         mLoadingProgress.setVisibility(View.INVISIBLE);
         TextView tvError = (TextView)findViewById(R.id.tv_error);
+        TextView tvHead = (TextView)findViewById(R.id.tv_head);
         if (result == null){
             rvRooms.setVisibility(View.INVISIBLE);
             tvError.setVisibility(View.VISIBLE);
         }else{
+            ArrayList<Room> rooms = ApiUtil.getRoomsFromJson(result);
+            RoomsAdapter adapter = new RoomsAdapter(rooms);
+            rvRooms.setAdapter(adapter);
             tvError.setVisibility(View.INVISIBLE);
             rvRooms.setVisibility(View.VISIBLE);
+            tvHead.setText("View over " + Integer.toString(rooms.size()) + "+ rentals waiting");
         }
 
-        ArrayList<Room> rooms = ApiUtil.getRoomsFromJson(result);
-        RoomsAdapter adapter = new RoomsAdapter(rooms);
-        rvRooms.setAdapter(adapter);
     }
     @Override
     protected void onPreExecute(){

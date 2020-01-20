@@ -6,5 +6,10 @@
     <string name="currency_icon_description">Currency Icon</string>
     <string name="location_icon_description">Location Icon</string>
     <string name="search_title">Search...</string>
+    <string name="room_type_text_view_msg">Rooms</string>
+    <string name="price_text_view_msg">Price</string>
+    <string name="location_text_view_msg">Location</string>
+    <string name="submit">Call Owner</string>
+    <string name="description_title">Description</string>
 
 </resources>
