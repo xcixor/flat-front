@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:padding="@dimen/app_padding"
     tools:context=".RoomListActivity">
 
@@ -33,18 +33,18 @@
     <TextView
         android:id="@+id/tv_head"
         android:layout_width="0dp"
-        android:textSize="@dimen/app_title_text_size"
         android:layout_height="wrap_content"
+        android:textSize="@dimen/app_title_text_size"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_marginTop="@dimen/components_vertical_spacing"
         android:id="@+id/rv_rooms"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/components_vertical_spacing"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

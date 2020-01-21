@@ -1,10 +1,12 @@
 package com.example.flat;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.MenuItemCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -28,13 +30,20 @@ public class RoomListActivity extends AppCompatActivity implements SearchView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_room_list);
         mLoadingProgress = (ProgressBar)findViewById(R.id.pb_loading);
+
         rvRooms = (RecyclerView)findViewById(R.id.rv_rooms);
         LinearLayoutManager roomsLayoutManager = new LinearLayoutManager(
                 this, LinearLayoutManager.VERTICAL, false);
         rvRooms.setLayoutManager(roomsLayoutManager);
-//        rvRooms.setAdapter(null);
+        Intent advancedSearchIntent = getIntent();
+        String query = advancedSearchIntent.getStringExtra("Query");
+        URL roomUrl = null;
         try {
-            URL roomUrl = ApiUtil.buildUrl("rooms");
+            if (query == null || query.isEmpty()){
+                roomUrl = ApiUtil.buildUrl("rooms");
+            }else{
+                roomUrl = new URL(query);
+            }
             new RoomsQueryTask().execute(roomUrl);
         } catch (Exception e) {
             Log.d("Error", e.getMessage());
@@ -49,6 +58,19 @@ public class RoomListActivity extends AppCompatActivity implements SearchView.On
         final SearchView searchView = (SearchView) searchItem.getActionView();
         searchView.setOnQueryTextListener(this);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.action_advanced_search:
+                Intent intent = new Intent(this, AdvancedSearch.class);
+                startActivity(intent);
+                return true;
+
+                default:
+                    return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override

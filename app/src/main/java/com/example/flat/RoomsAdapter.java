@@ -61,7 +61,16 @@ public class RoomsAdapter extends RecyclerView.Adapter<RoomsAdapter.RoomViewHold
             tvRoomType.setText(room.roomType);
             tvPrice.setText(Integer.toString(room.price));
             tvLocation.setText(room.location);
-            Picasso.get().load(room.image).into(imageView);
+//            Picasso.get().load(room.image).into(imageView);
+            if(!room.image.isEmpty()) {
+                Picasso.get()
+                        .load(room.image)
+                        .placeholder(R.drawable.home_city_outline)
+                        .error(R.drawable.home_city_outline)
+                        .into(imageView);
+            }else {
+                imageView.setBackgroundResource(R.drawable.home_city_outline);
+            }
         }
 
         @Override

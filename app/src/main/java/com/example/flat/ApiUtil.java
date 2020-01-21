@@ -1,5 +1,7 @@
 package com.example.flat;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -12,11 +14,25 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.concurrent.ExecutionException;
 
 public class ApiUtil {
+
+    public static final String QUERY_PARAMETER_KEY = "?";
+
     private ApiUtil(){}
 
     public  static final String BASE_API_URL = "http://35.208.96.236/";
+
+    public static final String ID = "id";
+    public static final String ROOMTYPE = "room_type";
+    public static final String LOCATION = "location";
+    public static final String PRICE = "price";
+    public static final String RESULTS = "results";
+    public static final String COUNT = "count";
+    public static final String DESCRIPTION = "description";
+    public static final String IMAGE = "image";
+    public static final String OWNER = "owner_search_edit_text";
 
     public static URL buildUrl(String query){
         String fullUrl = BASE_API_URL + query + "/";
@@ -25,6 +41,28 @@ public class ApiUtil {
             url = new URL(fullUrl);
         }
         catch (Exception e){
+            e.printStackTrace();
+        }
+        return url;
+    }
+
+    public static URL buildUrl (String location, String room_type, String price, String owner){
+        URL url = null;
+        StringBuilder sb = new StringBuilder();
+        if (!location.isEmpty()) sb.append(LOCATION + location + "&");
+        if(!room_type.isEmpty()) sb.append(ROOMTYPE + room_type + "&");
+        if(!price.isEmpty()) sb.append(PRICE + price + "&");
+        if(!owner.isEmpty()) sb.append(OWNER + owner + "&");
+        sb.setLength(sb.length() - 1);
+        String query = sb.toString();
+        Uri uri = Uri.parse(BASE_API_URL)
+                .buildUpon()
+                .appendQueryParameter(QUERY_PARAMETER_KEY, query)
+                .build();
+        try {
+            url = new URL(uri.toString());
+            Log.d("** URL **", String.valueOf(url));
+        }catch (Exception e){
             e.printStackTrace();
         }
         return url;
@@ -53,14 +91,7 @@ public class ApiUtil {
 
     public static ArrayList<Room> getRoomsFromJson(String json){
 
-        final String ID = "id";
-        final String ROOMTYPE = "room_type";
-        final String LOCATION = "location";
-        final String PRICE = "price";
-        final String RESULTS = "results";
-        final String COUNT = "count";
-        final String DESCRIPTION = "description";
-        final String IMAGE = "image";
+
 
         ArrayList<Room> rooms = new ArrayList<Room>();
 
@@ -73,11 +104,11 @@ public class ApiUtil {
                 JSONObject jsonRoom = arrayRooms.getJSONObject(i);
                 Room room = new Room(
                         Integer.toString(jsonRoom.getInt(ID)),
-                        jsonRoom.getString(ROOMTYPE),
-                        jsonRoom.getString(LOCATION),
+                        jsonRoom.isNull(ROOMTYPE) ? "": jsonRoom.getString(ROOMTYPE),
+                        jsonRoom.isNull(LOCATION) ? "": jsonRoom.getString(LOCATION),
                         jsonRoom.getInt(PRICE),
-                        jsonRoom.getString(DESCRIPTION),
-                        jsonRoom.getString(IMAGE)
+                        jsonRoom.isNull(DESCRIPTION) ? "": jsonRoom.getString(DESCRIPTION),
+                        jsonRoom.isNull(IMAGE) ? "": jsonRoom.getString(IMAGE)
                 );
                 rooms.add(room);
             }

@@ -64,6 +64,13 @@ public class Room implements Parcelable {
 
     @BindingAdapter({"android:imageUrl"})
     public static void loadImage(ImageView imageView, String imageUrl){
-        Picasso.get().load(imageUrl).into(imageView);
+        if (!imageUrl.isEmpty()) {
+            Picasso.get()
+                    .load(imageUrl)
+                    .into(imageView);
+        }else{
+            imageView.setBackgroundResource(R.drawable.home_city_outline);
+        }
+
     }
 }

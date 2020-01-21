@@ -11,5 +11,10 @@
     <string name="location_text_view_msg">Location</string>
     <string name="submit">Call Owner</string>
     <string name="description_title">Description</string>
-
+    <string name="search_button_text">Search</string>
+    <string name="search_location_hint">Enter Location</string>
+    <string name="seach_room_type_hint">Number of Rooms</string>
+    <string name="search_price_hint">Price</string>
+    <string name="search_owner">Owner</string>
+    <string name="search_data_error">Please insert valid search terms</string>
 </resources>
