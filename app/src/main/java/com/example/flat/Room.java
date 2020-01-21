@@ -2,6 +2,11 @@ package com.example.flat;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.widget.ImageView;
+
+import androidx.databinding.BindingAdapter;
+
+import com.squareup.picasso.Picasso;
 
 public class Room implements Parcelable {
     public String id;
@@ -9,13 +14,15 @@ public class Room implements Parcelable {
     public String location;
     public int price;
     public String description;
+    public String image;
 
-    public Room(String id, String roomType, String location, int price, String description) {
+    public Room(String id, String roomType, String location, int price, String description, String image) {
         this.id = id;
         this.roomType = roomType;
         this.location = location;
         this.price = price;
         this.description = description;
+        this.image = image;
     }
 
     protected Room(Parcel in) {
@@ -24,6 +31,8 @@ public class Room implements Parcelable {
         location = in.readString();
         price = in.readInt();
         description = in.readString();
+        image = in.readString();
+
     }
 
     public static final Creator<Room> CREATOR = new Creator<Room>() {
@@ -50,5 +59,11 @@ public class Room implements Parcelable {
         parcel.writeString(location);
         parcel.writeInt(price);
         parcel.writeString(description);
+        parcel.writeString(image);
+    }
+
+    @BindingAdapter({"android:imageUrl"})
+    public static void loadImage(ImageView imageView, String imageUrl){
+        Picasso.get().load(imageUrl).into(imageView);
     }
 }

@@ -5,10 +5,13 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -44,17 +47,21 @@ public class RoomsAdapter extends RecyclerView.Adapter<RoomsAdapter.RoomViewHold
         TextView tvRoomType;
         TextView tvPrice;
         TextView tvLocation;
+        ImageView imageView;
+
         public RoomViewHolder(@NonNull View itemView) {
             super(itemView);
             tvRoomType = (TextView)itemView.findViewById(R.id.room_type);
             tvPrice = (TextView)itemView.findViewById(R.id.price);
             tvLocation = (TextView)itemView.findViewById(R.id.location);
+            imageView = (ImageView)itemView.findViewById(R.id.room_main_image);
             itemView.setOnClickListener(this);
         }
         public void bind(Room room){
             tvRoomType.setText(room.roomType);
             tvPrice.setText(Integer.toString(room.price));
             tvLocation.setText(room.location);
+            Picasso.get().load(room.image).into(imageView);
         }
 
         @Override

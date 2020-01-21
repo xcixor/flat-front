@@ -60,6 +60,7 @@ public class ApiUtil {
         final String RESULTS = "results";
         final String COUNT = "count";
         final String DESCRIPTION = "description";
+        final String IMAGE = "image";
 
         ArrayList<Room> rooms = new ArrayList<Room>();
 
@@ -75,7 +76,8 @@ public class ApiUtil {
                         jsonRoom.getString(ROOMTYPE),
                         jsonRoom.getString(LOCATION),
                         jsonRoom.getInt(PRICE),
-                        jsonRoom.getString(DESCRIPTION)
+                        jsonRoom.getString(DESCRIPTION),
+                        jsonRoom.getString(IMAGE)
                 );
                 rooms.add(room);
             }
