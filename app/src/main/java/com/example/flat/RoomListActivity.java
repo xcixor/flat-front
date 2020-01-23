@@ -36,11 +36,11 @@ public class RoomListActivity extends AppCompatActivity implements SearchView.On
                 this, LinearLayoutManager.VERTICAL, false);
         rvRooms.setLayoutManager(roomsLayoutManager);
         Intent advancedSearchIntent = getIntent();
-        String query = advancedSearchIntent.getStringExtra("Query");
+        String query = advancedSearchIntent.getStringExtra("query");
         URL roomUrl = null;
         try {
             if (query == null || query.isEmpty()){
-                roomUrl = ApiUtil.buildUrl("rooms");
+                roomUrl = ApiUtil.buildUrl("/","", "");
             }else{
                 roomUrl = new URL(query);
             }
@@ -54,9 +54,15 @@ public class RoomListActivity extends AppCompatActivity implements SearchView.On
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.room_list_menu, menu);
         final MenuItem searchItem = menu.findItem(R.id.action_search);
-//        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         final SearchView searchView = (SearchView) searchItem.getActionView();
         searchView.setOnQueryTextListener(this);
+        ArrayList<String> recentQueriesList = SPUtil.getQueryList(getApplicationContext());
+        int queriesTotal = recentQueriesList.size();
+        MenuItem recentMenu;
+        for (int i = 0; i<queriesTotal; i++){
+            recentMenu = menu.add(Menu.NONE, i, Menu.NONE, recentQueriesList.get(i));
+
+        }
         return true;
     }
 
@@ -69,16 +75,32 @@ public class RoomListActivity extends AppCompatActivity implements SearchView.On
                 return true;
 
                 default:
+                    int position = item.getItemId() + 1;
+                    String preferenceName = SPUtil.QUERY + String.valueOf(position);
+                    String query = SPUtil.getPreferencesString(getApplicationContext(), preferenceName);
+                    String[] prefParams = query.split("\\,");
+                    String[] queryParams = new String[4];
+                    for (int i=0; i<prefParams.length; i++){
+                        queryParams[i] = prefParams[i];
+                    }
+                    URL roomUrl = ApiUtil.buildUrl(
+                            "/advanced_search",
+                            (queryParams[0] == null) ? "": queryParams[0],
+                            (queryParams[1] == null) ? "": queryParams[1],
+                            (queryParams[2] == null) ? "": queryParams[2],
+                            (queryParams[3] == null) ? "": queryParams[3]
+                            );
+                    new RoomsQueryTask().execute(roomUrl);
                     return super.onOptionsItemSelected(item);
         }
     }
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        String searchQuery;
+//        String searchQuery;
         try {
-            searchQuery = "rooms/" + Integer.parseInt(query);
-            URL searchUrl = ApiUtil.buildUrl(searchQuery);
+//            searchQuery = "rooms/" + Integer.parseInt(query);
+            URL searchUrl = ApiUtil.buildUrl("/search", "search", query);
             new RoomsQueryTask().execute(searchUrl);
         }catch (Exception e){
             Log.d("error", e.getMessage());

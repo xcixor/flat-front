@@ -2,6 +2,7 @@ package com.example.flat;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -41,9 +42,24 @@ public class AdvancedSearch extends AppCompatActivity {
                     String errorMessage = getString(R.string.search_data_error);
                     Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG).show();
                 }else{
-                    URL query = ApiUtil.buildUrl(location, roomType, price, owner);
+                    URL query = ApiUtil.buildUrl("/advanced_search", location, roomType, price, owner);
+
+                    Context context = getApplicationContext();
+                    int position = SPUtil.getPreferencesInt(context, SPUtil.POSITION);
+
+                    if (position == 0 || position == 5){
+                        position = 1;
+                    }else{
+                        position++;
+                    }
+
+                    String key = SPUtil.QUERY + String.valueOf(position);
+                    String value = location + "," + roomType + "," + price + "," + owner + ",";
+                    SPUtil.setPrefString(context, key, value);
+                    SPUtil.setPrefInt(context, SPUtil.POSITION, position);
+
                     Intent intent = new Intent(getApplicationContext(), RoomListActivity.class);
-                    intent.putExtra("Query", query);
+                    intent.putExtra("query", query.toString());
                     startActivity(intent);
                 }
             }
