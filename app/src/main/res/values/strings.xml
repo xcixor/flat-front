@@ -17,4 +17,5 @@
     <string name="search_price_hint">Price</string>
     <string name="search_owner">Owner</string>
     <string name="search_data_error">Please insert valid search terms</string>
+    <string name="welcome_message">Fetching rentals for you...</string>
 </resources>

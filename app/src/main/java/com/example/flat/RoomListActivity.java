@@ -24,12 +24,15 @@ import java.util.ArrayList;
 public class RoomListActivity extends AppCompatActivity implements SearchView.OnQueryTextListener{
     private RecyclerView rvRooms;
     private ProgressBar mLoadingProgress;
+    private TextView tvWelcomeMsg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_room_list);
         mLoadingProgress = (ProgressBar)findViewById(R.id.pb_loading);
+        tvWelcomeMsg = (TextView)findViewById(R.id.tv_welcome_message);
+        tvWelcomeMsg.setVisibility(View.VISIBLE);
 
         rvRooms = (RecyclerView)findViewById(R.id.rv_rooms);
         LinearLayoutManager roomsLayoutManager = new LinearLayoutManager(
@@ -133,8 +136,10 @@ public class RoomListActivity extends AppCompatActivity implements SearchView.On
     @Override
     protected void onPostExecute (String result){
         mLoadingProgress.setVisibility(View.INVISIBLE);
+        tvWelcomeMsg.setVisibility(View.INVISIBLE);
         TextView tvError = (TextView)findViewById(R.id.tv_error);
         TextView tvHead = (TextView)findViewById(R.id.tv_head);
+
         if (result == null){
             rvRooms.setVisibility(View.INVISIBLE);
             tvError.setVisibility(View.VISIBLE);
