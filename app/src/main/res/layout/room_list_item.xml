@@ -25,6 +25,7 @@
 
         <ImageView
             android:id="@+id/bed_icon"
+            android:padding="@dimen/icon_internal_padding"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@string/bed_icon_description"
@@ -48,6 +49,7 @@
 
         <ImageView
             android:id="@+id/currency_icon"
+            android:padding="@dimen/icon_internal_padding"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@string/currency_icon_description"
@@ -71,6 +73,7 @@
 
         <ImageView
             android:id="@+id/location_icon"
+            android:padding="@dimen/icon_internal_padding"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@string/location_icon_description"

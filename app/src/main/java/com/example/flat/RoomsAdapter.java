@@ -11,7 +11,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.shape.RoundedCornerTreatment;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 
@@ -73,16 +72,17 @@ public class RoomsAdapter extends RecyclerView.Adapter<RoomsAdapter.RoomViewHold
                 Picasso.get()
                         .load(room.image)
                         .transform(transformation)
-                        .placeholder(R.drawable.image_placeholder)
-                        .error(R.drawable.image_placeholder)
+                        .placeholder(R.drawable.placeholder_image)
+                        .error(R.drawable.placeholder_image)
                         .fit()
                         .into(imageView);
             }else {
-                Picasso.get()
-                        .load(R.drawable.image_placeholder)
-                        .transform(transformation)
-                        .fit()
-                        .into(imageView);
+//                Picasso.get()
+//                        .load(R.drawable.image_placeholder)
+//                        .transform(transformation)
+//                        .fit()
+//                        .into(imageView);
+                imageView.setBackgroundResource(R.drawable.placeholder_image);
             }
         }
 
