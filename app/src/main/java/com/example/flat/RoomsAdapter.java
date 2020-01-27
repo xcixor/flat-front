@@ -11,9 +11,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.shape.RoundedCornerTreatment;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Transformation;
 
 import java.util.ArrayList;
+
+import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
 
 public class RoomsAdapter extends RecyclerView.Adapter<RoomsAdapter.RoomViewHolder>{
 
@@ -48,6 +52,9 @@ public class RoomsAdapter extends RecyclerView.Adapter<RoomsAdapter.RoomViewHold
         TextView tvPrice;
         TextView tvLocation;
         ImageView imageView;
+        private static final int radius = 10;
+        private static final int margin = 0;
+        private Transformation transformation;
 
         public RoomViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -61,15 +68,21 @@ public class RoomsAdapter extends RecyclerView.Adapter<RoomsAdapter.RoomViewHold
             tvRoomType.setText(room.roomType);
             tvPrice.setText(Integer.toString(room.price));
             tvLocation.setText(room.location);
-//            Picasso.get().load(room.image).into(imageView);
+            transformation = new RoundedCornersTransformation(radius, margin);
             if(!room.image.isEmpty()) {
                 Picasso.get()
                         .load(room.image)
-                        .placeholder(R.drawable.home_city_outline)
-                        .error(R.drawable.home_city_outline)
+                        .transform(transformation)
+                        .placeholder(R.drawable.image_placeholder)
+                        .error(R.drawable.image_placeholder)
+                        .fit()
                         .into(imageView);
             }else {
-                imageView.setBackgroundResource(R.drawable.home_city_outline);
+                Picasso.get()
+                        .load(R.drawable.image_placeholder)
+                        .transform(transformation)
+                        .fit()
+                        .into(imageView);
             }
         }
 

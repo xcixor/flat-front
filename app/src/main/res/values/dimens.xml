@@ -9,5 +9,6 @@
     <dimen name="app_padding_right">10dp</dimen>
     <dimen name="app_padding_bottom">10dp</dimen>
     <dimen name="app_padding_top">10dp</dimen>
+    <dimen name="main_image_height">250dp</dimen>
 
 </resources>
