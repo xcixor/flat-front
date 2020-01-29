@@ -43,7 +43,8 @@ public class RoomListActivity extends AppCompatActivity implements SearchView.On
         URL roomUrl = null;
         try {
             if (query == null || query.isEmpty()){
-                roomUrl = ApiUtil.buildUrl("/","", "");
+                ApiQueryBuilder queryBuilder = new ApiQueryBuilder.QueryBuilder("/").build();
+                roomUrl = queryBuilder.buildUrl();
             }else{
                 roomUrl = new URL(query);
             }
@@ -86,13 +87,14 @@ public class RoomListActivity extends AppCompatActivity implements SearchView.On
                     for (int i=0; i<prefParams.length; i++){
                         queryParams[i] = prefParams[i];
                     }
-                    URL roomUrl = ApiUtil.buildUrl(
-                            "/advanced_search",
-                            (queryParams[0] == null) ? "": queryParams[0],
-                            (queryParams[1] == null) ? "": queryParams[1],
-                            (queryParams[2] == null) ? "": queryParams[2],
-                            (queryParams[3] == null) ? "": queryParams[3]
-                            );
+                    ApiQueryBuilder queryBuilder = new ApiQueryBuilder.
+                            QueryBuilder("/advanced_search")
+                            .mLocation((queryParams[0] == null) ? "": queryParams[0])
+                            .mRoomType((queryParams[1] == null) ? "": queryParams[1])
+//                            .mPrice(Integer.parseInt(queryParams[2]))
+                            .mOwner((queryParams[3] == null) ? "": queryParams[3])
+                            .build();
+                    URL roomUrl = queryBuilder.buildUrl();
                     new RoomsQueryTask().execute(roomUrl);
                     return super.onOptionsItemSelected(item);
         }
@@ -100,10 +102,9 @@ public class RoomListActivity extends AppCompatActivity implements SearchView.On
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-//        String searchQuery;
         try {
-//            searchQuery = "rooms/" + Integer.parseInt(query);
-            URL searchUrl = ApiUtil.buildUrl("/search", "search", query);
+            ApiQueryBuilder queryBuilder = new ApiQueryBuilder.QueryBuilder("/search").mSearch(query).build();
+            URL searchUrl = queryBuilder.buildUrl();
             new RoomsQueryTask().execute(searchUrl);
         }catch (Exception e){
             Log.d("error", e.getMessage());

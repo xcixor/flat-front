@@ -42,8 +42,16 @@ public class AdvancedSearch extends AppCompatActivity {
                     String errorMessage = getString(R.string.search_data_error);
                     Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG).show();
                 }else{
-                    URL query = ApiUtil.buildUrl("/advanced_search", location, roomType, price, owner);
-
+                    int intPrice = 0;
+                    if (!price.isEmpty()) intPrice = Integer.parseInt(price);
+                    ApiQueryBuilder queryBuilder = new ApiQueryBuilder.
+                            QueryBuilder("/advanced_search")
+                            .mLocation(location)
+                            .mRoomType(roomType)
+                            .mPrice(intPrice)
+                            .mOwner(owner)
+                            .build();
+                    URL query = queryBuilder.buildUrl();
                     Context context = getApplicationContext();
                     int position = SPUtil.getPreferencesInt(context, SPUtil.POSITION);
 

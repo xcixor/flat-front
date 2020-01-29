@@ -1,7 +1,5 @@
 package com.example.flat;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -14,66 +12,19 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.concurrent.ExecutionException;
 
 public class ApiUtil {
 
-    public static final String QUERY_PARAMETER_KEY = "?";
 
     private ApiUtil(){}
-
-    public  static final String BASE_API_URL = "http://35.208.96.236/rooms";
 
     public static final String ID = "id";
     public static final String ROOMTYPE = "room_type";
     public static final String LOCATION = "location";
     public static final String PRICE = "price";
     public static final String RESULTS = "results";
-    public static final String COUNT = "count";
     public static final String DESCRIPTION = "description";
     public static final String IMAGE = "image";
-    public static final String OWNER = "owner_search_edit_text";
-
-    public static URL buildUrl(String endPoint, String key, String parameter){
-        String fullUrl = BASE_API_URL + endPoint + "?";
-        URL url = null;
-        Uri uri = Uri.parse(fullUrl).buildUpon()
-                .appendQueryParameter(key, parameter)
-                .build();
-        try {
-//            url = new URL(fullUrl);
-            url = new URL(uri.toString());
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
-        return url;
-    }
-
-    public static URL buildUrl (String endPoint, String location, String room_type, String price, String owner){
-        StringBuilder sb = new StringBuilder();
-        if (!location.isEmpty()) sb.append(LOCATION + "=" + location + "&");
-        if(!room_type.isEmpty()) sb.append(ROOMTYPE + "=" + room_type + "&");
-        if(!price.isEmpty()) sb.append(PRICE + "=" + price + "&");
-        if(!owner.isEmpty()) sb.append(OWNER + "=" + owner + "&");
-        sb.setLength(sb.length() - 1);
-        String query = sb.toString();
-        URL url = null;
-        String fullUrl = BASE_API_URL + endPoint + "?" + query;
-//        Uri uri = Uri.parse(fullUrl)
-//                .buildUpon()
-//                .appendPath(query)
-//                .build();
-        Uri uri = Uri.parse(fullUrl);
-//        uri.buildUpon().appendPath(query).build();
-        try {
-            url = new URL(uri.toString());
-//            return url;
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        return url;
-    }
 
     public  static String getJsonData(URL url) throws IOException {
         HttpURLConnection connection = (HttpURLConnection)url.openConnection();
