@@ -41,7 +41,6 @@ public class ApiQueryBuilder {
         Uri uri = Uri.parse(fullUrl);
         try {
             url = new URL(uri.toString());
-//            return url;
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -62,11 +61,11 @@ public class ApiQueryBuilder {
 
     public static class QueryBuilder {
         private String mId;
-        private String mRoomType = "";
+        private String mRoomType;
         private String mLocation;
         private int mPrice = 0;
         private String mDescription;
-        private String mEndpoint = "/";
+        private String mEndpoint;
         private String mSearch;
         private String mOwner;
 
@@ -80,13 +79,8 @@ public class ApiQueryBuilder {
         }
 
         public QueryBuilder mRoomType(String roomType){
-            if (roomType.isEmpty() || roomType == null)
-                {
-                    this.mRoomType = "single";
-                }else {
-                    this.mRoomType = roomType;
-            }
-            return  this;
+            this.mRoomType = roomType;
+            return this;
         }
 
         public QueryBuilder mLocation(String location){
