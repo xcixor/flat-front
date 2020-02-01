@@ -37,4 +37,6 @@ public class ApiUtilTest {
     public void assertBuiltUrlIsURL(){
         assertTrue(sExpectedBaseURL instanceof URL);
     }
+
+
 }
