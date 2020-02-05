@@ -16,6 +16,31 @@ import java.util.Scanner;
 public class ApiUtil {
 
 
+    public ArrayList<Room> sRooms;
+    private static ApiUtil sApiUtilInstance = null;
+    private ApiQueryBuilder sQueryBuilder;
+    private static final String BASEENDPOINT = "/";
+
+    public static ApiUtil getInstance() {
+        if(sApiUtilInstance == null) {
+            sApiUtilInstance = new ApiUtil();
+            sApiUtilInstance.initializeRooms();
+        }
+        return sApiUtilInstance;
+    }
+
+    private void initializeRooms() {
+        sQueryBuilder = new ApiQueryBuilder.QueryBuilder(BASEENDPOINT).build();
+        final URL url = sQueryBuilder.buildUrl();
+        String result = null;
+        try {
+            result = getJsonData(url);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        sRooms = getRoomsFromJson(result);
+    }
+
     private ApiUtil(){}
 
     public static final String ID = "id";
@@ -50,7 +75,6 @@ public class ApiUtil {
     public static ArrayList<Room> getRoomsFromJson(String json){
 
 
-
         ArrayList<Room> rooms = new ArrayList<Room>();
 
         try {
@@ -76,5 +100,14 @@ public class ApiUtil {
         }
 
         return rooms;
+    }
+
+    public Room getRoom(String id){
+        for (Room room: sRooms){
+            if (id.equals(room.id)){
+                return room;
+            }
+        }
+        return null;
     }
 }
